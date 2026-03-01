@@ -1,1 +1,1812 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSTMG - Révision Bac Économie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e40af;
+            --eco-green: #059669;
+            --light-green: #d1fae5;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--white);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--warning);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-item {
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background: var(--white);
+            color: var(--primary-blue);
+        }
+
+        .nav-item.special {
+            background: var(--warning);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .nav-item.special:hover {
+            background: #fbbf24;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--warning);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--text-dark);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-blue);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon.blue { background: #dbeafe; }
+        .card-icon.green { background: var(--light-green); }
+        .card-icon.orange { background: #fef3c7; }
+        .card-icon.red { background: #fee2e2; }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-blue { background: #dbeafe; color: var(--dark-blue); }
+        .badge-green { background: var(--light-green); color: var(--eco-green); }
+        .badge-orange { background: #fef3c7; color: #92400e; }
+
+        /* Content Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Theme Content */
+        .theme-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--eco-green));
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .theme-title {
+            font-size: 1.875rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Fiches */
+        .fiche-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .fiche {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-blue);
+            box-shadow: var(--shadow);
+        }
+
+        .fiche-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        .definition-box {
+            background: #f0f9ff;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid #bae6fd;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+        }
+
+        .formula-box {
+            background: var(--light-green);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--eco-green);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option:hover {
+            border-color: var(--primary-blue);
+            background: #f0f9ff;
+        }
+
+        .option.selected {
+            border-color: var(--primary-blue);
+            background: #dbeafe;
+        }
+
+        .option.correct {
+            border-color: var(--eco-green);
+            background: var(--light-green);
+        }
+
+        .option.wrong {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-letter {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .option.correct .option-letter {
+            background: var(--eco-green);
+            color: var(--white);
+        }
+
+        .explanation {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f0f9ff;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        /* Mode Panique */
+        .panic-mode {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .panic-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .countdown {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+
+        .essentials-list {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .essential-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .essential-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Exercices */
+        .exercise-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .exercise-type {
+            padding: 0.5rem 1rem;
+            background: #dbeafe;
+            color: var(--dark-blue);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .document-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        .correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--light-green);
+            border-radius: 12px;
+            display: none;
+        }
+
+        .correction.show {
+            display: block;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 101;
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Gamification */
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        /* Timer */
+        .timer {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            font-family: monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            z-index: 50;
+            display: none;
+        }
+
+        .timer.active {
+            display: block;
+        }
+
+        .timer.warning {
+            color: #dc2626;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+    
+    <div class="timer" id="timer">00:00</div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                EcoSTMG
+            </div>
+            <div class="subtitle">Révision Bac Économie</div>
+
+            <div class="nav-section">
+                <div class="nav-title">Thèmes du programme</div>
+                <div class="nav-item active" onclick="showSection('dashboard')">
+                    <span>🏠</span> Accueil
+                </div>
+                <div class="nav-item" onclick="showSection('theme1')">
+                    <span>📈</span> Thème 1 : Croissance
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="nav-item" onclick="showSection('theme2')">
+                    <span>🌍</span> Thème 2 : Économie globale
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="nav-item" onclick="showSection('theme3')">
+                    <span>🌱</span> Thème 3 : Développement durable
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Entraînement</div>
+                <div class="nav-item" onclick="showSection('quiz')">
+                    <span>❓</span> Quiz interactifs
+                </div>
+                <div class="nav-item" onclick="showSection('exercices')">
+                    <span>📝</span> Exercices types Bac
+                </div>
+                <div class="nav-item" onclick="showSection('simulateur')">
+                    <span>⏱️</span> Simulateur d'oral
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Outils</div>
+                <div class="nav-item" onclick="showSection('lexique')">
+                    <span>📚</span> Lexique Éco
+                </div>
+                <div class="nav-item" onclick="showSection('points-faibles')">
+                    <span>⚠️</span> Mes points faibles
+                </div>
+                <div class="nav-item special" onclick="showSection('panic')">
+                    <span>🚨</span> Mode Panique 24h
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard -->
+            <section id="dashboard" class="section active">
+                <div class="header">
+                    <h1 class="page-title">Tableau de bord 📊</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="showSection('lexique')">📚 Lexique</button>
+                        <button class="btn btn-primary" onclick="showSection('quiz')">▶️ Commencer un quiz</button>
+                    </div>
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #dbeafe;">🎯</div>
+                        <div>
+                            <div class="stat-value" id="score-global">0%</div>
+                            <div class="stat-label">Progression globale</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: var(--light-green);">✅</div>
+                        <div>
+                            <div class="stat-value" id="quiz-completed">0</div>
+                            <div class="stat-label">Quiz réussis</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #fef3c7;">🔥</div>
+                        <div>
+                            <div class="stat-value" id="streak">0</div>
+                            <div class="stat-label">Jours consécutifs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card" onclick="showSection('theme1')">
+                        <div class="card-icon blue">📈</div>
+                        <div class="card-title">Thème 1 : Croissance et crises</div>
+                        <div class="card-desc">Croissance économique, cycles, crises et régulation</div>
+                        <div class="card-meta">
+                            <span class="badge badge-blue">8 fiches</span>
+                            <span class="badge badge-green">5 quiz</span>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showSection('theme2')">
+                        <div class="card-icon green">🌍</div>
+                        <div class="card-title">Thème 2 : Économie globale</div>
+                        <div class="card-desc">Mondialisation, finance internationale et Europe</div>
+                        <div class="card-meta">
+                            <span class="badge badge-blue">10 fiches</span>
+                            <span class="badge badge-green">6 quiz</span>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showSection('theme3')">
+                        <div class="card-icon orange">🌱</div>
+                        <div class="card-title">Thème 3 : Développement durable</div>
+                        <div class="card-desc">Croissance verte, économie circulaire et inégalités</div>
+                        <div class="card-meta">
+                            <span class="badge badge-blue">7 fiches</span>
+                            <span class="badge badge-green">4 quiz</span>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showSection('exercices')">
+                        <div class="card-icon blue">📝</div>
+                        <div class="card-title">Exercices types Bac</div>
+                        <div class="card-desc">Documents commentés, études de cas et dissertations</div>
+                        <div class="card-meta">
+                            <span class="badge badge-orange">12 sujets</span>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showSection('simulateur')">
+                        <div class="card-icon red">⏱️</div>
+                        <div class="card-title">Simulateur d'oral</div>
+                        <div class="card-desc">Entraînement chronométré avec grille d'évaluation</div>
+                        <div class="card-meta">
+                            <span class="badge badge-blue">30 min</span>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showSection('panic')">
+                        <div class="card-icon" style="background: #fee2e2;">🚨</div>
+                        <div class="card-title">Mode Panique 24h</div>
+                        <div class="card-desc">Révision express des essentiels avant le bac</div>
+                        <div class="card-meta">
+                            <span class="badge badge-orange">Urgent !</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Thème 1 : Croissance -->
+            <section id="theme1" class="section">
+                <div class="theme-header">
+                    <div class="theme-title">📈 Thème 1 : Croissance, crises et régulation</div>
+                    <p>Comprendre la dynamique de l'activité économique et les politiques de régulation</p>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('theme1-fiches')">📄 Fiches de révision</div>
+                    <div class="tab" onclick="showTab('theme1-schemas')">📊 Schémas</div>
+                    <div class="tab" onclick="showTab('theme1-formules')">🧮 Formules</div>
+                    <div class="tab" onclick="showTab('theme1-chrono')">📅 Chronologie</div>
+                </div>
+
+                <div id="theme1-fiches" class="tab-content active">
+                    <div class="fiche-container">
+                        <div class="fiche">
+                            <div class="fiche-title">1. La croissance économique</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Croissance économique</div>
+                                <p>Augmentation durable de la production de richesses dans un pays, mesurée généralement par l'évolution du PIB (Produit Intérieur Brut) en volume (hors inflation).</p>
+                            </div>
+                            <p><strong>Caractéristiques :</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Différencier croissance en valeur et en volume</li>
+                                <li>Taux de croissance : mesure variation d'une année sur l'autre</li>
+                                <li>Croissance forte ≠ développement (voir HDI)</li>
+                            </ul>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">2. Les cycles économiques</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Cycle économique</div>
+                                <p>Fluctuations alternées de l'activité économique autour de la tendance de long terme, composées de phases d'expansion et de récession.</p>
+                            </div>
+                            <p><strong>Les 4 phases :</strong> Reprise → Expansion (sommet) → Ralentissement → Récession (creux)</p>
+                            <p><strong>Indicateurs :</strong> PIB, chômage, production industrielle, confiance des ménages</p>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">3. Les crises économiques</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Crise économique</div>
+                                <p>Rupture brutale dans le fonctionnement de l'économie, caractérisée par une chute de l'activité, de l'emploi et de la confiance.</p>
+                            </div>
+                            <p><strong>Crises majeures à connaître :</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>1929 : Crise de 1929 (Krach boursier, Grande Dépression)</li>
+                                <li>1973 : Chocs pétroliers (stagflation)</li>
+                                <li>2008 : Crise financière (subprimes)</li>
+                                <li>2020 : Crise Covid-19</li>
+                            </ul>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">4. La régulation économique</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Politique économique</div>
+                                <p>Ensemble des mesures prises par les pouvoirs publics pour influencer l'activité économique : politique budgétaire, politique monétaire, politique structurelle.</p>
+                            </div>
+                            <p><strong>Politique budgétaire :</strong> Dépenses publiques, impôts, dette</p>
+                            <p><strong>Politique monétaire :</strong> Taux d'intérêt, quantité de monnaie (BCE, Fed)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="theme1-schemas" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">Le circuit économique simplifié</div>
+                        <div style="background: #f8fafc; padding: 2rem; border-radius: 12px; text-align: center; margin: 1rem 0;">
+                            <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 2rem;">
+                                <div style="padding: 1rem; background: var(--primary-blue); color: white; border-radius: 12px; font-weight: 600;">MÉNAGES</div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <span>→ Facteurs de production (travail, capital)</span>
+                                    <span style="margin: 0.5rem 0;">← Revenus (salaires, profits)</span>
+                                </div>
+                                <div style="padding: 1rem; background: var(--eco-green); color: white; border-radius: 12px; font-weight: 600;">ENTREPRISES</div>
+                            </div>
+                            <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 2rem;">
+                                <span>↓ Dépenses de consommation</span>
+                                <span>↑ Biens et services produits</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="theme1-formules" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">Formules essentielles</div>
+                        
+                        <div class="formula-box">
+                            Taux de croissance = ((PIB N - PIB N-1) / PIB N-1) × 100
+                        </div>
+                        <p><em>Exemple : PIB 2023 = 1000, PIB 2024 = 1030 → Taux = ((1030-1000)/1000)×100 = 3%</em></p>
+
+                        <div class="formula-box">
+                            PIB nominal = PIB réel × Déflateur du PIB
+                        </div>
+
+                        <div class="formula-box">
+                            Solde budgétaire = Recettes fiscales - Dépenses publiques
+                        </div>
+                        <p><em>Si > 0 : excédent | Si < 0 : déficit</em></p>
+                    </div>
+                </div>
+
+                <div id="theme1-chrono" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">Repères chronologiques essentiels</div>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 1rem; border-left: 3px solid var(--primary-blue); margin-bottom: 0.5rem;">
+                                <strong>1929-1939</strong> : Grande Dépression (Krach de 1929, New Deal)
+                            </li>
+                            <li style="padding: 1rem; border-left: 3px solid var(--primary-blue); margin-bottom: 0.5rem;">
+                                <strong>1944</strong> : Accords de Bretton Woods (système monétaire)
+                            </li>
+                            <li style="padding: 1rem; border-left: 3px solid var(--primary-blue); margin-bottom: 0.5rem;">
+                                <strong>1973-1979</strong> : Chocs pétroliers (fin des Trente Glorieuses)
+                            </li>
+                            <li style="padding: 1rem; border-left: 3px solid var(--primary-blue); margin-bottom: 0.5rem;">
+                                <strong>2008</strong> : Crise financière mondiale
+                            </li>
+                            <li style="padding: 1rem; border-left: 3px solid var(--primary-blue); margin-bottom: 0.5rem;">
+                                <strong>2020</strong> : Crise Covid-19 (chute -8% PIB France)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Thème 2 : Économie globale -->
+            <section id="theme2" class="section">
+                <div class="theme-header" style="background: linear-gradient(135deg, var(--eco-green), #0f766e);">
+                    <div class="theme-title">🌍 Thème 2 : Économie globale et intégration européenne</div>
+                    <p>Comprendre l'interdépendance des économies et le fonctionnement de la zone euro</p>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('theme2-fiches')">📄 Fiches de révision</div>
+                    <div class="tab" onclick="showTab('theme2-europe')">🇪🇺 Union Européenne</div>
+                    <div class="tab" onclick="showTab('theme2-balance')">💱 Balance des paiements</div>
+                </div>
+
+                <div id="theme2-fiches" class="tab-content active">
+                    <div class="fiche-container">
+                        <div class="fiche">
+                            <div class="fiche-title">1. La mondialisation</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Mondialisation</div>
+                                <p>Processus d'intensification des échanges économiques, financiers et culturels à l'échelle mondiale, caractérisé par la libre circulation des biens, services, capitaux et (dans une moindre mesure) des personnes.</p>
+                            </div>
+                            <p><strong>Mesures :</strong> Commerce international/PIB, IDE (Investissements Directs Étrangers), flux financiers</p>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">2. Les avantages comparatifs (Ricardo)</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Avantage comparatif</div>
+                                <p>Un pays a intérêt à se spécialiser dans la production pour laquelle il dispose du coût relatif le plus faible (même s'il est moins efficace dans tous les domaines), puis à échanger.</p>
+                            </div>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">3. La zone euro</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Union économique et monétaire (UEM)</div>
+                                <p>Espace économique composé de 20 pays de l'UE ayant adopté l'euro comme monnaie unique, avec une politique monétaire commune définie par la BCE.</p>
+                            </div>
+                            <p><strong>Critères de convergence (Maastricht) :</strong></p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>Déficit public < 3% du PIB</li>
+                                <li>Dette publique < 60% du PIB</li>
+                                <li>Inflation proche des meilleurs élèves</li>
+                                <li>Taux d'intérêt longs stables</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="theme2-europe" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">Les institutions européennes clés</div>
+                        <div class="definition-box">
+                            <div class="definition-term">Banque Centrale Européenne (BCE)</div>
+                            <p>Institution indépendante chargée de la politique monétaire dans la zone euro. Objectif principal : stabilité des prix (inflation cible ~2%). Siège à Francfort.</p>
+                        </div>
+                        <div class="definition-box">
+                            <div class="definition-term">Commission européenne</div>
+                            <p>Organe exécutif de l'UE proposant les lois et veillant à leur application. Gère le budget et les négociations commerciales.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="theme2-balance" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">La balance des paiements</div>
+                        <div class="definition-box">
+                            <div class="definition-term">Balance des paiements</div>
+                            <p>Comptabilité nationale des échanges économiques entre résidents et non-résidents. Doit être équilibrée (double écriture).</p>
+                        </div>
+                        <p><strong>Composantes :</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li><strong>Balance commerciale</strong> : Exportations - Importations de biens</li>
+                            <li><strong>Balance des services</strong> : Tourisme, transport, services financiers</li>
+                            <li><strong>Balance des revenus</strong> : Salaires, profits, intérêts</li>
+                            <li><strong>Transferts courants</strong> : Aides, remises de fonds</li>
+                        </ul>
+                        <div class="formula-box">
+                            Solde commercial = Exportations - Importations
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Thème 3 : Développement durable -->
+            <section id="theme3" class="section">
+                <div class="theme-header" style="background: linear-gradient(135deg, var(--eco-green), #65a30d);">
+                    <div class="theme-title">🌱 Thème 3 : Économie du développement durable</div>
+                    <p>Concilier croissance économique, préservation environnementale et justice sociale</p>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('theme3-fiches')">📄 Fiches de révision</div>
+                    <div class="tab" onclick="showTab('theme3-circulaire')">♻️ Économie circulaire</div>
+                    <div class="tab" onclick="showTab('theme3-inegalites')">⚖️ Inégalités</div>
+                </div>
+
+                <div id="theme3-fiches" class="tab-content active">
+                    <div class="fiche-container">
+                        <div class="fiche">
+                            <div class="fiche-title">1. Le développement durable</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Développement durable (Brundtland, 1987)</div>
+                                <p>Développement qui répond aux besoins du présent sans compromettre la capacité des générations futures à répondre aux leurs. Trois piliers : économique, social, environnemental.</p>
+                            </div>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">2. La croissance verte</div>
+                            <div class="definition-box">
+                                <div class="definition-term">Croissance verte (Green Growth)</div>
+                                <p>Stratégie de croissance économique qui vise à réduire les émissions de carbone et la pollution, tout en améliorant l'efficacité énergétique et prévenant la perte de biodiversité.</p>
+                            </div>
+                            <p><strong>Outils :</strong> Taxe carbone, marchés de permis d'émission (ETS), subventions vertes, normes environnementales</p>
+                        </div>
+
+                        <div class="fiche">
+                            <div class="fiche-title">3. L'IDH (Indice de Développement Humain)</div>
+                            <div class="definition-box">
+                                <div class="definition-term">IDH</div>
+                                <p>Indice composite mesurant le développement humain selon trois dimensions : espérance de vie (santé), niveau d'éducation, revenu national brut par habitant (PNB/hab).</p>
+                            </div>
+                            <p>Classement : Très élevé (>0,8), Élevé (0,7-0,8), Moyen (0,55-0,7), Faible (<0,55)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="theme3-circulaire" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">L'économie circulaire</div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: #f0fdf4; padding: 1rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">♻️</div>
+                                <strong>Recycler</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-light);">Transformer les déchets en nouvelles ressources</p>
+                            </div>
+                            <div style="background: #f0fdf4; padding: 1rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔧</div>
+                                <strong>Réutiliser/Réparer</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-light);">Prolonger la durée de vie des produits</p>
+                            </div>
+                            <div style="background: #f0fdf4; padding: 1rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⬇️</div>
+                                <strong>Réduire</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-light);">Diminuer la consommation de ressources</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="theme3-inegalites" class="tab-content">
+                    <div class="fiche">
+                        <div class="fiche-title">Les inégalités Nord/Sud</div>
+                        <div class="definition-box">
+                            <div class="definition-term">Divisions du monde</div>
+                            <p>Pays développés (OCDE) vs Pays en développement (PED) vs Pays les moins avancés (PMA). Critères : PIB/hab, IDH, structure économique.</p>
+                        </div>
+                        <p><strong>Causes des écarts :</strong> Colonisation, spécialisation dans les matières premières, démographie, accès aux technologies, gouvernance.</p>
+                        <p><strong>Solutions :</strong> Aide publique au développement (0,7% RNB objectif ONU), commerce équitable, transferts de technologie.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Interactifs -->
+            <section id="quiz" class="section">
+                <div class="header">
+                    <h1 class="page-title">Quiz interactifs ❓</h1>
+                    <div class="header-actions">
+                        <select class="btn btn-secondary" id="quiz-theme-select" onchange="loadQuiz(this.value)">
+                            <option value="all">Tous les thèmes</option>
+                            <option value="theme1">Thème 1 : Croissance</option>
+                            <option value="theme2">Thème 2 : Économie globale</option>
+                            <option value="theme3">Thème 3 : Développement durable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quiz-container" id="quiz-container">
+                    <div class="question" id="question-text">Chargement...</div>
+                    <div class="options" id="options-container"></div>
+                    <div class="explanation" id="explanation"></div>
+                    
+                    <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                        <div>Question <span id="current-q">1</span> / <span id="total-q">5</span></div>
+                        <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" style="display: none;">Question suivante →</button>
+                    </div>
+                </div>
+
+                <div id="quiz-results" style="display: none; text-align: center; padding: 3rem; background: var(--white); border-radius: 20px; margin-top: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+                    <h2 style="margin-bottom: 1rem;">Quiz terminé !</h2>
+                    <div style="font-size: 3rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 1rem;">
+                        <span id="score">0</span> / <span id="total-score">5</span>
+                    </div>
+                    <p id="score-message"></p>
+                    <button class="btn btn-primary" onclick="restartQuiz()" style="margin-top: 1.5rem;">Recommencer</button>
+                </div>
+            </section>
+
+            <!-- Exercices types Bac -->
+            <section id="exercices" class="section">
+                <div class="header">
+                    <h1 class="page-title">Exercices types Bac 📝</h1>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-header">
+                        <span class="exercise-type">Document commenté</span>
+                        <span class="badge badge-blue">Thème 1</span>
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">Sujet : L'évolution de la croissance française</h3>
+                    
+                    <div class="document-box">
+                        <strong>Document : Évolution du taux de croissance du PIB en France (2018-2023)</strong><br><br>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <tr style="background: #e2e8f0;">
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">Année</th>
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">2018</th>
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">2019</th>
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">2020</th>
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">2021</th>
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">2022</th>
+                                <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">2023</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1; font-weight: 600;">Taux de croissance (%)</td>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">1,8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">1,8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">-7,9</td>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">6,8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">2,5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">0,9</td>
+                            </tr>
+                        </table>
+                        <p style="margin-top: 1rem; font-size: 0.875rem;">Source : Insee, 2024</p>
+                    </div>
+
+                    <p><strong>Questions :</strong></p>
+                    <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Décrivez l'évolution du taux de croissance du PIB en France entre 2018 et 2023.</li>
+                        <li>Identifiez et expliquez la phase particulière observée en 2020.</li>
+                        <li>Calculez le taux de croissance moyen sur la période 2018-2023.</li>
+                    </ol>
+
+                    <button class="btn btn-secondary" onclick="toggleCorrection(this)" style="margin-top: 1rem;">Voir la correction</button>
+
+                    <div class="correction">
+                        <h4>Correction détaillée :</h4>
+                        <p><strong>1. Description :</strong> On observe une croissance stable en 2018-2019 (1,8%), suivie d'un effondrement en 2020 (-7,9%) dû au Covid-19, puis une forte reprise en 2021 (rebond technique à 6,8%), et un ralentissement progressif 2022-2023.</p>
+                        <p><strong>2. Crise de 2020 :</strong> C'est la crise Covid-19. Confinements → arrêt de l'activité → récession brutale. C'est un choc d'offre ET de demande.</p>
+                        <p><strong>3. Calcul :</strong> (1,8 + 1,8 - 7,9 + 6,8 + 2,5 + 0,9) / 6 = 6,9 / 6 = <strong>1,15%</strong> en moyenne annuelle.</p>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-header">
+                        <span class="exercise-type">Dissertation</span>
+                        <span class="badge badge-green">Thème 2</span>
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">Sujet : L'intégration européenne renforce-t-elle la puissance économique des États membres ?</h3>
+                    
+                    <div style="background: #f0f9ff; padding: 1rem; border-radius: 12px; margin: 1rem 0;">
+                        <strong>Plan type :</strong>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>I. Les avantages de l'intégration</strong> (marché unique, économies d'échelle, pouvoir de négociation commercial)</li>
+                            <li><strong>II. Les limites et contraintes</strong> (perte de souveraineté monétaire, critères de convergence, asymétries entre pays)</li>
+                            <li><strong>III. Dépasser les contradictions</strong> (coordination des politiques budgétaires, NextGenerationEU, fédéralisme à la carte)</li>
+                        </ol>
+                    </div>
+
+                    <button class="btn btn-secondary" onclick="toggleCorrection(this)">Voir les arguments clés</button>
+                    <div class="correction">
+                        <p><strong>Arguments pour :</strong> Zone euro = stabilité des changes, BCE = crédibilité anti-inflation, marché de 450M consommateurs, négociations commerciales communes (UE = 1er exportateur mondial).</p>
+                        <p><strong>Arguments contre :</strong> Impossibilité de dévaluer, crise de la dette 2010-2015 (Grèce), politique monétaire unique inadaptée à tous (Allemagne vs Italie), divergences de compétitivité.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulateur d'oral -->
+            <section id="simulateur" class="section">
+                <div class="header">
+                    <h1 class="page-title">Simulateur d'oral ⏱️</h1>
+                </div>
+
+                <div style="background: var(--white); border-radius: 20px; padding: 2rem; text-align: center; box-shadow: var(--shadow);">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎓</div>
+                    <h2 style="margin-bottom: 1rem;">Conditions de l'épreuve</h2>
+                    <p style="color: var(--text-light); margin-bottom: 2rem;">
+                        Préparation : 20 minutes | Présentation : 10 minutes | Entretien : 10-15 minutes
+                    </p>
+
+                    <div style="display: grid; gap: 1rem; max-width: 400px; margin: 0 auto;">
+                        <button class="btn btn-primary" onclick="startSimulation(20)">
+                            🚀 Lancer une simulation (20 min)
+                        </button>
+                        <button class="btn btn-secondary" onclick="startSimulation(10)">
+                            ⚡ Mode rapide (10 min)
+                        </button>
+                    </div>
+
+                    <div id="simulation-area" style="display: none; margin-top: 2rem; text-align: left;">
+                        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                            <h3 style="margin-bottom: 1rem;">Votre sujet :</h3>
+                            <p id="sujet-tire" style="font-size: 1.1rem; font-weight: 600; color: var(--primary-blue);"></p>
+                        </div>
+                        
+                        <div style="background: var(--light-green); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <strong>💡 Conseil :</strong> <span id="conseil-display"></span>
+                        </div>
+
+                        <button class="btn btn-warning" onclick="stopSimulation()">Arrêter la simulation</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; background: var(--white); border-radius: 20px; padding: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Grille d'auto-évaluation</h3>
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+                            <span>Connaissance des définitions</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 1)">1</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 2)">2</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 3)">3</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 4)">4</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+                            <span>Utilisation des documents</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 1)">1</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 2)">2</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 3)">3</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 4)">4</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+                            <span>Argumentation et logique</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 1)">1</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 2)">2</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 3)">3</button>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="rate(this, 4)">4</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lexique -->
+            <section id="lexique" class="section">
+                <div class="header">
+                    <h1 class="page-title">Lexique Économique 📚</h1>
+                    <input type="text" placeholder="Rechercher un terme..." style="padding: 0.75rem 1.5rem; border: 2px solid #e2e8f0; border-radius: 12px; width: 300px;" onkeyup="searchLexique(this.value)">
+                </div>
+
+                <div class="cards-grid" id="lexique-container">
+                    <!-- Généré par JS -->
+                </div>
+            </section>
+
+            <!-- Points faibles -->
+            <section id="points-faibles" class="section">
+                <div class="header">
+                    <h1 class="page-title">Mes points faibles ⚠️</h1>
+                </div>
+
+                <div style="background: var(--white); border-radius: 20px; padding: 2rem;">
+                    <div id="weak-points-list">
+                        <p style="color: var(--text-light); text-align: center; padding: 3rem;">
+                            Complétez des quiz pour identifier vos points faibles...
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mode Panique -->
+            <section id="panic" class="section">
+                <div class="panic-mode">
+                    <div class="panic-title">
+                        <span>🚨</span>
+                        MODE PANIQUE 24H
+                    </div>
+                    <p>Révision express des essentiels pour le lendemain</p>
+                    
+                    <div class="countdown" id="countdown">24:00:00</div>
+                    <p>avant le bac (simulation)</p>
+
+                    <div class="essentials-list">
+                        <h3 style="margin-bottom: 1rem;">📋 Check-list des incontournables :</h3>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p1" onchange="updatePanicProgress()">
+                            <label for="p1">Définition PIB et calcul taux de croissance</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p2" onchange="updatePanicProgress()">
+                            <label for="p2">3 politiques économiques (budgétaire, monétaire, structurelle)</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p3" onchange="updatePanicProgress()">
+                            <label for="p3">Critères de convergence Maastricht (3%, 60%)</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p4" onchange="updatePanicProgress()">
+                            <label for="p4">Composition de la balance des paiements</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p5" onchange="updatePanicProgress()">
+                            <label for="p5">3 piliers du développement durable</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p6" onchange="updatePanicProgress()">
+                            <label for="p6">IDH : 3 composantes et échelle</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p7" onchange="updatePanicProgress()">
+                            <label for="p7">Dates clés : 1929, 1973, 2008, 2020</label>
+                        </div>
+                        <div class="essential-item">
+                            <input type="checkbox" id="p8" onchange="updatePanicProgress()">
+                            <label for="p8">Méthode du document commenté (3 étapes)</label>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 16px;">
+                        <h4>⚡ Révision rapide :</h4>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                            Faites les 3 quiz rapides (5 questions) de chaque thème → 
+                            <button class="btn btn-warning" onclick="showSection('quiz')" style="margin-top: 0.5rem;">Lancer les quiz rapides</button>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Données des quiz
+        const quizData = {
+            theme1: [
+                {
+                    question: "Quelle formule permet de calculer le taux de croissance du PIB ?",
+                    options: [
+                        "((PIB N - PIB N-1) / PIB N-1) × 100",
+                        "PIB N - PIB N-1",
+                        "(PIB N / PIB N-1) × 100",
+                        "((PIB N+1 - PIB N) / PIB N) × 100"
+                    ],
+                    correct: 0,
+                    explanation: "Le taux de croissance mesure l'évolution en pourcentage par rapport à la période précédente. On fait la différence divisée par la valeur initiale, le tout multiplié par 100."
+                },
+                {
+                    question: "La crise de 1929 est d'abord une crise...",
+                    options: [
+                        "Pétrolière",
+                        "Boursière et financière",
+                        "Sanitaire",
+                        "De la dette souveraine"
+                    ],
+                    correct: 1,
+                    explanation: "La crise de 1929 débute par le krach boursier de Wall Street en octobre 1929, avant de se transformer en crise économique majeure (Grande Dépression)."
+                },
+                {
+                    question: "Quel est l'objectif principal de la politique monétaire ?",
+                    options: [
+                        "Réduire le chômage",
+                        "Stabiliser les prix (lutter contre l'inflation)",
+                        "Augmenter les exportations",
+                        "Réduire les inégalités"
+                    ],
+                    correct: 1,
+                    explanation: "La politique monétaire vise principalement la stabilité des prix (maitrise de l'inflation). La BCE a pour objectif une inflation inférieure à mais proche de 2%."
+                },
+                {
+                    question: "Les 'Trente Glorieuses' désignent la période...",
+                    options: [
+                        "1918-1948",
+                        "1945-1975",
+                        "1975-2005",
+                        "2000-2030"
+                    ],
+                    correct: 1,
+                    explanation: "Les Trente Glorieuses (expression de Jean Fourastié) couvrent la période 1945-1975, caractérisée par une croissance forte et régulière en France."
+                },
+                {
+                    question: "Le solde budgétaire est égal à...",
+                    options: [
+                        "Dépenses publiques + Recettes fiscales",
+                        "Recettes fiscales - Dépenses publiques",
+                        "Dette publique / PIB",
+                        "Dépenses publiques / Recettes fiscales"
+                    ],
+                    correct: 1,
+                    explanation: "Solde budgétaire = Recettes - Dépenses. Si négatif = déficit ; si positif = excédent. Ne pas confondre avec la dette publique (stock cumulé des déficits passés)."
+                }
+            ],
+            theme2: [
+                {
+                    question: "La BCE (Banque Centrale Européenne) a son siège à...",
+                    options: [
+                        "Paris",
+                        "Bruxelles",
+                        "Francfort",
+                        "Berlin"
+                    ],
+                    correct: 2,
+                    explanation: "La BCE est installée à Francfort-sur-le-Main en Allemagne. Elle est indépendante des gouvernements."
+                },
+                {
+                    question: "Quel est le critère de déficit public dans les critères de Maastricht ?",
+                    options: [
+                        "Déficit < 3% du PIB",
+                        "Déficit < 5% du PIB",
+                        "Déficit < 1% du PIB",
+                        "Déficit nul (équilibre)"
+                    ],
+                    correct: 0,
+                    explanation: "Le critère de déficit est de 3% du PIB maximum. Le critère de dette est de 60% du PIB (ou diminution suffisante vers 60%)."
+                },
+                {
+                    question: "L'IDE signifie...",
+                    options: [
+                        "Indice de Développement Économique",
+                        "Investissement Direct Étranger",
+                        "Institution de Développement Européen",
+                        "Intégration des Droits Économiques"
+                    ],
+                    correct: 1,
+                    explanation: "Les Investissements Directs Étrangers (IDE) correspondent aux investissements durables (filiales, acquisitions) réalisés par des entreprises à l'étranger."
+                }
+            ],
+            theme3: [
+                {
+                    question: "L'IDH comprend combien de dimensions ?",
+                    options: [
+                        "2",
+                        "3",
+                        "4",
+                        "5"
+                    ],
+                    correct: 1,
+                    explanation: "L'Indice de Développement Humain (IDH) comprend 3 dimensions : santé (espérance de vie), éducation (années de scolarisation), niveau de vie (RNB/hab)."
+                },
+                {
+                    question: "Quelle est la date du rapport Brundtland sur le développement durable ?",
+                    options: [
+                        "1972",
+                        "1987",
+                        "1992",
+                        "2015"
+                    ],
+                    correct: 1,
+                    explanation: "Le rapport 'Notre avenir à tous' (rapport Brundtland) de la Commission mondiale sur l'environnement et le développement date de 1987."
+                }
+            ]
+        };
+
+        let currentQuiz = [];
+        let currentQuestion = 0;
+        let score = 0;
+        let timerInterval;
+        let weakPoints = [];
+
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            event.target.closest('.nav-item')?.classList.add('active');
+            
+            if (sectionId !== 'simulateur') {
+                stopSimulation();
+            }
+            
+            if (sectionId === 'lexique') initLexique();
+            if (sectionId === 'quiz') loadQuiz('all');
+            
+            // Mobile
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function showTab(tabId) {
+            const parent = event.target.closest('section');
+            parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            parent.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Quiz System
+        function loadQuiz(theme) {
+            currentQuiz = [];
+            if (theme === 'all') {
+                Object.values(quizData).forEach(q => currentQuiz.push(...q));
+            } else {
+                currentQuiz = quizData[theme] || [];
+            }
+            
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('total-q').textContent = currentQuiz.length;
+            
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = currentQuiz[currentQuestion];
+            document.getElementById('current-q').textContent = currentQuestion + 1;
+            document.getElementById('question-text').textContent = q.question;
+            
+            const optionsHtml = q.options.map((opt, idx) => `
+                <div class="option" onclick="selectOption(${idx})">
+                    <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
+                    <div>${opt}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('options-container').innerHTML = optionsHtml;
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('explanation').innerHTML = `<strong>Explication :</strong> ${q.explanation}`;
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(idx) {
+            const q = currentQuiz[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === idx) opt.classList.add('selected');
+                if (i === q.correct) opt.classList.add('correct');
+                if (i === idx && i !== q.correct) opt.classList.add('wrong');
+                opt.onclick = null;
+            });
+            
+            if (idx === q.correct) {
+                score++;
+            } else {
+                weakPoints.push(q.question);
+                updateWeakPoints();
+            }
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < currentQuiz.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            document.getElementById('score').textContent = score;
+            document.getElementById('total-score').textContent = currentQuiz.length;
+            
+            const percentage = (score / currentQuiz.length) * 100;
+            let msg = '';
+            if (percentage >= 80) msg = 'Excellent ! 🌟 Tu maîtrises le sujet !';
+            else if (percentage >= 60) msg = 'Bien ! 💪 Quelques révisions à faire.';
+            else msg = 'À retravailler 📚 Consulte les fiches de révision.';
+            
+            document.getElementById('score-message').textContent = msg;
+            
+            // Update global stats
+            document.getElementById('quiz-completed').textContent = 
+                parseInt(document.getElementById('quiz-completed').textContent) + 1;
+            document.getElementById('score-global').textContent = 
+                Math.round(percentage) + '%';
+        }
+
+        function restartQuiz() {
+            loadQuiz(document.getElementById('quiz-theme-select').value);
+        }
+
+        // Simulateur
+        const sujets = [
+            "Analysez l'évolution de la dette publique française et ses conséquences.",
+            "L'euro est-il un atout pour la compétitivité de la France ?",
+            "Montrez comment la crise Covid-19 a affecté l'activité économique.",
+            "Les politiques de croissance verte sont-elles compatibles avec l'emploi ?",
+            "Analysez les inégalités de développement entre pays de l'OCDE et pays émergents."
+        ];
+
+        const conseils = [
+            "Commencez par définir les termes du sujet (dette publique, PIB...).",
+            "Utilisez des données chiffrées récentes dans votre argumentation.",
+            "Structurez votre réponse : constat → explications → conséquences.",
+            "Pensez à mentionner les acteurs (État, BCE, entreprises, ménages).",
+            "Concluez sur une ouverture vers l'avenir ou une comparaison internationale."
+        ];
+
+        function startSimulation(minutes) {
+            document.getElementById('simulation-area').style.display = 'block';
+            document.getElementById('sujet-tire').textContent = sujets[Math.floor(Math.random() * sujets.length)];
+            document.getElementById('conseil-display').textContent = conseils[Math.floor(Math.random() * conseils.length)];
+            
+            const timer = document.getElementById('timer');
+            timer.classList.add('active');
+            
+            let seconds = minutes * 60;
+            updateTimer(seconds);
+            
+            timerInterval = setInterval(() => {
+                seconds--;
+                updateTimer(seconds);
+                if (seconds <= 300) timer.classList.add('warning');
+                if (seconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Temps écoulé ! Préparez votre présentation.');
+                }
+            }, 1000);
+        }
+
+        function updateTimer(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${m}:${s}`;
+        }
+
+        function stopSimulation() {
+            clearInterval(timerInterval);
+            document.getElementById('timer').classList.remove('active', 'warning');
+            document.getElementById('simulation-area').style.display = 'none';
+        }
+
+        function rate(btn, value) {
+            btn.parentElement.querySelectorAll('button').forEach(b => {
+                b.style.background = '#f1f5f9';
+                b.style.color = '#475569';
+            });
+            btn.style.background = value >= 3 ? '#059669' : '#dc2626';
+            btn.style.color = 'white';
+        }
+
+        // Lexique
+        const lexiqueData = [
+            { term: "PIB", def: "Produit Intérieur Brut : valeur totale des biens et services produits dans un pays sur une période.", theme: "theme1" },
+            { term: "Inflation", def: "Hausse soutenue du niveau général des prix, entraînant une perte de pouvoir d'achat.", theme: "theme1" },
+            { term: "Chômage", def: "Situation des personnes sans emploi, recherchant un emploi et disponibles pour travailler.", theme: "theme1" },
+            { term: "BCE", def: "Banque Centrale Européenne : institution chargée de la politique monétaire dans la zone euro.", theme: "theme2" },
+            { term: "Euro", def: "Monnaie unique de 20 pays de l'Union européenne depuis 1999 (billets 2002).", theme: "theme2" },
+            { term: "IDE", def: "Investissements Directs Étrangers : investissements durables à l'étranger (filiales, acquisitions).", theme: "theme2" },
+            { term: "IDH", def: "Indice de Développement Humain : mesure composite du développement (santé, éducation, revenu).", theme: "theme3" },
+            { term: "Économie circulaire", def: "Modèle économique visant à minimiser le gaspillage et maximiser la réutilisation des ressources.", theme: "theme3" },
+            { term: "Développement durable", def: "Développement répondant aux besoins du présent sans compromettre ceux des générations futures.", theme: "theme3" }
+        ];
+
+        function initLexique() {
+            const container = document.getElementById('lexique-container');
+            container.innerHTML = lexiqueData.map(item => `
+                <div class="card" style="border-left: 4px solid ${getThemeColor(item.theme)};">
+                    <div class="card-title">${item.term}</div>
+                    <div class="card-desc">${item.def}</div>
+                    <span class="badge" style="background: ${getThemeColor(item.theme)}20; color: ${getThemeColor(item.theme)};">
+                        ${getThemeName(item.theme)}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function getThemeColor(theme) {
+            return theme === 'theme1' ? '#2563eb' : theme === 'theme2' ? '#059669' : '#65a30d';
+        }
+
+        function getThemeName(theme) {
+            return theme === 'theme1' ? 'Croissance' : theme === 'theme2' ? 'Économie globale' : 'Développement durable';
+        }
+
+        function searchLexique(query) {
+            const cards = document.querySelectorAll('#lexique-container .card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query.toLowerCase()) ? 'block' : 'none';
+            });
+        }
+
+        // Points faibles
+        function updateWeakPoints() {
+            const list = document.getElementById('weak-points-list');
+            if (weakPoints.length === 0) return;
+            
+            const unique = [...new Set(weakPoints)];
+            list.innerHTML = unique.map(wp => `
+                <div style="padding: 1rem; background: #fee2e2; border-radius: 12px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span>❌ ${wp.substring(0, 50)}...</span>
+                    <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="showSection('theme1')">Réviser</button>
+                </div>
+            `).join('');
+        }
+
+        // Exercices
+        function toggleCorrection(btn) {
+            const correction = btn.nextElementSibling;
+            correction.classList.toggle('show');
+            btn.textContent = correction.classList.contains('show') ? 'Masquer la correction' : 'Voir la correction';
+        }
+
+        // Mode Panique
+        function updatePanicProgress() {
+            const checkboxes = document.querySelectorAll('.essential-item input');
+            const checked = document.querySelectorAll('.essential-item input:checked');
+            const progress = (checked.length / checkboxes.length) * 100;
+            
+            if (progress === 100) {
+                alert('🎉 Parfait ! Tu es prêt pour le bac !');
+            }
+        }
+
+        // Countdown simulation
+        setInterval(() => {
+            const el = document.getElementById('countdown');
+            if (!el) return;
+            let [h, m, s] = el.textContent.split(':').map(Number);
+            if (s > 0) s--;
+            else if (m > 0) { m--; s = 59; }
+            else if (h > 0) { h--; m = 59; s = 59; }
+            el.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }, 1000);
+
+        // Initialisation
+        window.onload = () => {
+            initLexique();
+        };
+    </script>
+</body>
+</html>
 
